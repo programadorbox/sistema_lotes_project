@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="h4 mb-3">Lotes</h1>
+<form class="row g-2 mb-3">
+  <div class="col-auto">
+    <select name="estado" class="form-select form-select-sm" onchange="this.form.submit()">
+      <option value="">— Estado —</option>
+      <option value="disponible">Disponible</option>
+      <option value="reservado">Reservado</option>
+      <option value="vendido">Vendido</option>
+      <option value="mora">En mora</option>
+      <option value="liberado">Liberado</option>
+    </select>
+  </div>
+</form>
+<div class="table-responsive">
+<table class="table table-sm table-hover align-middle">
+  <thead><tr><th>Proyecto</th><th>Código</th><th>Número</th><th>Superficie</th><th>Precio</th><th>Estado</th></tr></thead>
+  <tbody>
+    {% for l in lotes %}
+    <tr>
+      <td>{{ l.proyecto.nombre }}</td>
+      <td>{{ l.codigo }}</td>
+      <td>{{ l.numero }}</td>
+      <td>{{ l.superficie_m2 }} m²</td>
+      <td>$ {{ l.precio_base }}</td>
+      <td><span class="badge text-bg-secondary">{{ l.estado }}</span></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6" class="text-muted">Sin registros.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
