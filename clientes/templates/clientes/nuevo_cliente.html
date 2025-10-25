@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">🧾 Registrar nuevo cliente</h4>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre completo</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="text" class="form-control" id="telefono" name="telefono">
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo electrónico</label>
+          <input type="email" class="form-control" id="email" name="email">
+        </div>
+
+        <div class="mb-3">
+          <label for="estado" class="form-label">Estado del cliente</label>
+          <select class="form-select" id="estado" name="estado">
+            <option value="interesado">Interesado</option>
+            <option value="visito">Visitó</option>
+            <option value="reservo">Reservó</option>
+            <option value="compro">Compró</option>
+            <option value="desistio">Desistió</option>
+            <option value="mora">En mora</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar cliente</button>
+        <a href="/clientes/" class="btn btn-secondary">Cancelar</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

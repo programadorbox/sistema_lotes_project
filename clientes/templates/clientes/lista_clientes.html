@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="fw-bold">📋 Lista de Clientes</h2>
+  <a href="/clientes/nuevo/" class="btn btn-primary btn-sm">
+    ➕ Nuevo Cliente
+  </a>
+</div>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+{% endif %}
+
+{% if clientes %}
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Nombre</th>
+          <th>Teléfono</th>
+          <th>Email</th>
+          <th>Estado</th>
+          <th>Creado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in clientes %}
+        <tr>
+          <td>{{ c.nombre }}</td>
+          <td>{{ c.telefono|default:"—" }}</td>
+          <td>{{ c.email|default:"—" }}</td>
+          <td>
+            {% if c.estado == "interesado" %}
+              <span class="badge bg-primary">Interesado</span>
+            {% elif c.estado == "visito" %}
+              <span class="badge bg-info text-dark">Visitó</span>
+            {% elif c.estado == "reservo" %}
+              <span class="badge bg-warning text-dark">Reservó</span>
+            {% elif c.estado == "compro" %}
+              <span class="badge bg-success">Compró</span>
+            {% elif c.estado == "desistio" %}
+              <span class="badge bg-danger">Desistió</span>
+            {% elif c.estado == "mora" %}
+              <span class="badge bg-secondary">En mora</span>
+            {% else %}
+              <span class="badge bg-light text-dark">—</span>
+            {% endif %}
+          </td>
+          <td>{{ c.creado|date:"d/m/Y H:i" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <div class="alert alert-info text-center">
+    No hay clientes registrados todavía.
+  </div>
+{% endif %}
+{% endblock %}
+

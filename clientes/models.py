@@ -1,4 +1,3 @@
-# clientes/models.py
 from django.db import models
 from django.utils import timezone
 
@@ -9,12 +8,12 @@ class Cliente(models.Model):
     estado = models.CharField(
         max_length=20,
         choices=[
-            ("interesado","Interesado"),
-            ("visito","Visitó"),
-            ("reservo","Reservó"),
-            ("compro","Compró"),
-            ("desistio","Desistió"),
-            ("mora","En mora"),
+            ("interesado", "Interesado"),
+            ("visito", "Visitó"),
+            ("reservo", "Reservó"),
+            ("compro", "Compró"),
+            ("desistio", "Desistió"),
+            ("mora", "En mora"),
         ],
         default="interesado"
     )
