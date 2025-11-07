@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold mb-0">📋 Intenciones</h2>
+    <a href="/intenciones/nueva/" class="btn btn-success btn-sm">➕ Nueva Intención</a>
+  </div>
+
+  <!-- Filtros -->
+  <form method="GET" class="row g-2 mb-4">
+    <div class="col-md-4">
+      <select name="vendedor" class="form-select form-select-sm" onchange="this.form.submit()">
+        <option value="">— Filtrar por vendedor —</option>
+        {% for v in vendedores %}
+          <option value="{{ v }}" {% if request.GET.vendedor == v %}selected{% endif %}>{{ v }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <select name="estado" class="form-select form-select-sm" onchange="this.form.submit()">
+        <option value="">— Filtrar por estado —</option>
+        <option value="interes" {% if request.GET.estado == "interes" %}selected{% endif %}>💬 Interés</option>
+        <option value="reserva" {% if request.GET.estado == "reserva" %}selected{% endif %}>⏳ Reserva</option>
+        <option value="confirmada" {% if request.GET.estado == "confirmada" %}selected{% endif %}>✅ Confirmada</option>
+        <option value="cancelada" {% if request.GET.estado == "cancelada" %}selected{% endif %}>❌ Cancelada</option>
+      </select>
+    </div>
+
+    {% if request.GET.vendedor or request.GET.estado %}
+    <div class="col-md-2">
+      <a href="/intenciones/lista/" class="btn btn-outline-secondary btn-sm w-100">Limpiar filtros</a>
+    </div>
+    {% endif %}
+  </form>
+
+  <!-- Tabla de intenciones -->
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Cliente</th>
+          <th>Lote</th>
+          <th>Proyecto</th>
+          <th>Vendedor</th>
+          <th>Estado</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in intenciones %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ i.cliente.nombre }}</td>
+          <td>{{ i.lote.codigo }}</td>
+          <td>{{ i.lote.proyecto.nombre }}</td>
+          <td>{{ i.vendedor.username }}</td>
+          <td>
+            {% if i.estado == "interes" %}
+              <span class="badge bg-primary">💬 Interés</span>
+            {% elif i.estado == "reserva" %}
+              <span class="badge bg-warning text-dark">⏳ Reserva</span>
+            {% elif i.estado == "confirmada" %}
+              <span class="badge bg-success">✅ Confirmada</span>
+            {% elif i.estado == "cancelada" %}
+              <span class="badge bg-danger">❌ Cancelada</span>
+            {% else %}
+              <span class="badge bg-secondary">{{ i.estado }}</span>
+            {% endif %}
+          </td>
+          <td>{{ i.creado|date:"d/m/Y H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center text-muted py-4">No hay intenciones registradas.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

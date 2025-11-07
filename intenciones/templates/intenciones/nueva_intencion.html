@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Registrar nueva intención</h2>
+
+<form method="POST" class="card shadow-sm p-4 bg-white">
+  {% csrf_token %}
+
+  <div class="mb-3">
+    <label class="form-label">Cliente</label>
+    <select name="cliente" class="form-select" required>
+      <option value="">Seleccione un cliente</option>
+      {% for c in clientes %}
+        <option value="{{ c.id }}">{{ c.nombre }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Lote</label>
+    <select name="lote" class="form-select" required>
+      <option value="">Seleccione un lote</option>
+      {% for l in lotes %}
+        <option value="{{ l.id }}">{{ l.codigo }} — {{ l.proyecto.nombre }} ({{ l.estado }})</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Estado</label>
+    <select name="estado" class="form-select">
+      <option value="interes">💬 Interés</option>
+      <option value="reserva">⏳ Reserva</option>
+      <option value="confirmada">✅ Confirmada</option>
+      <option value="cancelada">❌ Cancelada</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Nota (opcional)</label>
+    <textarea name="nota" rows="3" class="form-control"></textarea>
+  </div>
+
+  <div class="text-end">
+    <a href="/intenciones/lista/" class="btn btn-outline-secondary me-2">Volver</a>
+    <button type="submit" class="btn btn-success">Guardar Intención</button>
+  </div>
+</form>
+{% endblock %}

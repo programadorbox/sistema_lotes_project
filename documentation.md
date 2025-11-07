@@ -1,24 +1,21 @@
-# 🧩 Sistema de Roles y Permisos — Proyecto **Sistema Lotes**
+# Sistema de Roles y Permisos — Proyecto **Sistema Lotes**
 
 Este documento define la estructura de **roles, permisos y flujo de trabajo** implementada en el sistema Django **Sistema Lotes**.  
 Todos los roles y permisos se configuran directamente desde el **panel de administración de Django**, sin necesidad de modificar el código.
 
 ---
 
-## ⚙️ Roles definidos
+##  Roles definidos
 
-### 🧑‍💼 Superusuario
+###  Superusuario
 - Tiene **control total** del sistema.
 - Puede crear, editar y eliminar cualquier registro.
 - Tiene acceso completo al panel `/admin/`.
 
-**Permisos automáticos:**
-> Todos los disponibles (Django otorga permisos totales a `is_superuser=True`).
 
----
 
-### 🧑‍🏫 Administrador
-- Su función es de **consulta y supervisión**.
+### Administrador
+- Su nción es de **consulta y supervisión**.
 - No puede crear, editar ni eliminar registros.
 - Solo puede **ver** la información de lotes, intenciones (ventas), clientes y seguimientos.
 
@@ -26,20 +23,16 @@ Todos los roles y permisos se configuran directamente desde el **panel de admini
 
 | App | Modelo | Permisos activos |
 |------|---------|------------------|
-| clientes | cliente | ✅ Can view cliente |
-| intenciones | intencion | ✅ Can view intencion |
-| lotes | lote | ✅ Can view lote |
-| lotes | proyecto | ✅ Can view proyecto |
-| seguimientos | seguimiento | ✅ Can view seguimiento |
+| clientes | cliente | Can view cliente |
+| intenciones | intencion |  Can view intencion |
+| lotes | lote | Can view lote |
+| lotes | proyecto | Can view proyecto |
+| seguimientos | seguimiento | Can view seguimiento |
 
-**Restricciones:**
-- ❌ No puede crear (`add`)
-- ❌ No puede editar (`change`)
-- ❌ No puede eliminar (`delete`)
 
 ---
 
-### 🧑‍🔧 Vendedor (Usuario común)
+###  Vendedor (Usuario común)
 - Representa a los vendedores o agentes comerciales.
 - Puede registrar nuevos clientes y crear intenciones (ventas).
 - Puede ver todas las intenciones (para fomentar la competencia).
@@ -49,18 +42,18 @@ Todos los roles y permisos se configuran directamente desde el **panel de admini
 
 | App | Modelo | Permisos activos |
 |------|---------|------------------|
-| clientes | cliente | ✅ Can add cliente, ✅ Can view cliente |
-| intenciones | intencion | ✅ Can add intencion, ✅ Can view intencion |
-| lotes | lote | ✅ Can view lote |
-| lotes | proyecto | ✅ Can view proyecto |
+| clientes | cliente |  Can add cliente, Can view cliente |
+| intenciones | intencion | Can add intencion,  Can view intencion |
+| lotes | lote |  Can view lote |
+| lotes | proyecto |  Can view proyecto |
 
 **Restricciones:**
-- ❌ No puede editar (`change`)
-- ❌ No puede eliminar (`delete`)
+-  No puede editar (`change`)
+- No puede eliminar (`delete`)
 
 ---
 
-## 🧱 Estructura de Grupos en Django
+## Estructura de Grupos en Django
 
 Los roles se implementan como **Grupos** dentro del panel de administración de Django.
 
@@ -75,19 +68,8 @@ Los roles se implementan como **Grupos** dentro del panel de administración de 
 
 ---
 
-## 👤 Asignación de roles a usuarios
 
-1. Ve a `/admin/auth/user/`
-2. Selecciona un usuario existente o crea uno nuevo.
-3. En el campo **Grupos**, asigna:
-   - `Administradores` o `Vendedores`
-4. Guarda los cambios.
-
-> 🟢 El superusuario no necesita grupo (ya tiene todos los permisos).
-
----
-
-## 🔁 Flujo de trabajo real
+## Flujo de trabajo real
 
 | Acción | Realizada por | Descripción |
 |---------|----------------|--------------|
@@ -98,20 +80,8 @@ Los roles se implementan como **Grupos** dentro del panel de administración de 
 
 ---
 
-## 💡 Bonus: Asociación automática de clientes al vendedor
-
-> (Opcional — implementar en `clientes/models.py`)
-
-Para registrar automáticamente **qué vendedor creó cada cliente**, se puede agregar este método en el modelo `Cliente`:
-
-```python
-def save(self, *args, **kwargs):
-    if not self.pk and not self.creado_por_id:
-        from django.contrib.auth import get_user_model
-        User = get_user_model()
-        # Asociar automáticamente el usuario logueado (si existe en request)
-        # Este método se complementa desde la vista o el admin
-    super().save(*args, **kwargs)
+    
+    credenciales, se que es una pesima practica esto, pero es solo a modo de prueba 
 
 Administ 	Gestor	    123!4567
 Vendedor 	vende1	    123!4567	
